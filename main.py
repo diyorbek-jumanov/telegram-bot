@@ -1,17 +1,25 @@
 import requests
-import json
-from pprint import pprint
+
+def sendMsg(ids, text):
+
+    payload = {
+        'chat_id': ids,
+        'text': text
+    }
+    url2 = f'https://api.telegram.org/bot{token}/sendMessage'
+    r2 = requests.get(url2, params=payload)
 
 token = '1623544581:AAGcmnpip3itggtxdUpX_GK7CdW-y1jmkic'
-url = f'https://api.telegram.org/bot{token}/getUpdates'
-r = requests.get(url)
-data = r.json()
+url1 = f'https://api.telegram.org/bot{token}/getUpdates'
+
+r1 = requests.get(url1)
+
+data = r1.json()
 updates = data['result']
 
 for update in updates:
     message = update['message']
+    text = message['text']
     user = message['from']
-    first_name = user.get('first_name', None)
-    last_name = user.get('last_name', None)
-    full_name = f'{first_name} {last_name}'
-    print(full_name)
+    i = user['id']
+    sendMsg(i, text)
